@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Registro — Miauroscopo 😸{% endblock %}
+
+{% block extra_style %}
+<style>
+    .card { --card-accent: linear-gradient(90deg, var(--mint), #04C08A); }
+    .page-icon { font-size: 3rem; text-align: center; margin-bottom: 0.5rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container animate">
+    <div class="card">
+        <div class="page-icon">😸</div>
+        <h1 style="text-align:center; color: var(--mint)">¡Únete!</h1>
+        <p class="subtitle" style="text-align:center">Regístrate y recibe tu horóscopo felino diario</p>
+
+        {% if success %}
+        <div class="alert alert-success">
+            🎉 ¡Bienvenido/a, {{ success }}! Signo registrado: <strong>{{ signo }}</strong>. ¡El cosmos gatuno te espera!
+        </div>
+        <a href="/login" class="btn btn-mint">🌙 Ir a Iniciar Sesión</a>
+        <div class="divider">🐾 ✦ 🐱 ✦ 🐾</div>
+        <a href="/" class="btn btn-ghost">← Volver al inicio</a>
+        {% else %}
+
+        {% if error %}
+        <div class="alert alert-error">🙀 {{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="field">
+                <label>👤 Tu nombre</label>
+                <input type="text" name="nombre" placeholder="Ej: Luna García" required>
+            </div>
+            <div class="field">
+                <label>📱 Teléfono internacional</label>
+                <input type="text" name="telefono" placeholder="+521234567890" required>
+            </div>
+            <div class="field">
+                <label>🔒 Contraseña</label>
+                <input type="password" name="contrasena" placeholder="Mínimo 6 caracteres" required>
+            </div>
+            <div class="field">
+                <label>⭐ Tu signo zodiacal</label>
+                <select name="signo" required>
+                    {% for signo in signos %}
+                    <option value="{{ signo }}">{{ signo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-mint">🐾 ¡Registrarme!</button>
+        </form>
+
+        <div class="divider">🐾 ✦ 🐱 ✦ 🐾</div>
+        <a href="/" class="btn btn-ghost">← Volver al inicio</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

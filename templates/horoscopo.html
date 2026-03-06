@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Tu Horóscopo — {{ user.nombre }} 🔮{% endblock %}
+
+{% block extra_style %}
+<style>
+    .horo-card {
+        background: white;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 12px 50px rgba(0,0,0,0.08);
+        border: 1.5px solid var(--border);
+        margin-bottom: 1.2rem;
+    }
+    .horo-header {
+        background: {{ horo.color }};
+        padding: 2.5rem 2rem 1.5rem;
+        text-align: center;
+        position: relative;
+    }
+    .horo-header::after {
+        content: '';
+        position: absolute;
+        bottom: -20px; left: 0; right: 0;
+        height: 40px;
+        background: white;
+        border-radius: 50% 50% 0 0 / 40px 40px 0 0;
+    }
+    .horo-emoji { font-size: 4rem; display: block; margin-bottom: 0.5rem; }
+    .horo-sign {
+        font-family: 'Fredoka One', cursive;
+        font-size: 2rem;
+        color: white;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .horo-body { padding: 2.5rem 2rem 2rem; }
+    .greeting {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin-bottom: 1rem;
+    }
+    .message-box {
+        background: linear-gradient(135deg, #FDFAFF, #F8F0FF);
+        border-radius: 18px;
+        padding: 1.5rem;
+        border-left: 4px solid {{ horo.color }};
+        margin-bottom: 1.5rem;
+    }
+    .message-box p {
+        color: var(--dark);
+        font-size: 1rem;
+        line-height: 1.7;
+        font-style: italic;
+    }
+    .date-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        color: var(--mid);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+    .share-hint {
+        text-align: center;
+        font-size: 0.82rem;
+        color: var(--mid);
+        margin-top: 0.5rem;
+    }
+
+    @keyframes pulse {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    .horo-emoji { animation: pulse 2s ease-in-out infinite; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container animate">
+    <div class="horo-card">
+        <div class="horo-header">
+            <span class="horo-emoji">{{ horo.emoji }}</span>
+            <div class="horo-sign">{{ signo }}</div>
+        </div>
+        <div class="horo-body">
+            <div class="date-row">📅 {{ today }}</div>
+            <p class="greeting">¡Hola, {{ user.nombre }}! 😺</p>
+            <div class="message-box">
+                <p>{{ horo.msg }}</p>
+            </div>
+            <a href="/logout" class="btn btn-pink">🐾 Cerrar Sesión</a>
+            <p class="share-hint">🌙 Vuelve mañana para tu próximo horóscopo felino</p>
+        </div>
+    </div>
+
+    <div class="card" style="text-align:center; padding: 1.2rem">
+        <p style="font-size:0.88rem; color:var(--mid); font-style:italic">
+            🐱 Con amor felino — Miauroscopo 🐾
+        </p>
+    </div>
+</div>
+{% endblock %}

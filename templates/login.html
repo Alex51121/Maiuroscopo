@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Iniciar Sesión — Miauroscopo 🌙{% endblock %}
+
+{% block extra_style %}
+<style>
+    .card { --card-accent: linear-gradient(90deg, var(--lavender), #9B7FD4); }
+    .page-icon { font-size: 3rem; text-align: center; margin-bottom: 0.5rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container animate">
+    <div class="card">
+        <div class="page-icon">🌙</div>
+        <h1 style="text-align:center; color: var(--lavender)">Bienvenido/a</h1>
+        <p class="subtitle" style="text-align:center">Los astros felinos te aguardan...</p>
+
+        {% if error %}
+        <div class="alert alert-error">🙀 {{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="field">
+                <label>📱 Tu número de teléfono</label>
+                <input type="text" name="telefono" placeholder="+521234567890" required>
+            </div>
+            <div class="field">
+                <label>🔒 Contraseña</label>
+                <input type="password" name="contrasena" placeholder="Tu contraseña secreta" required>
+            </div>
+            <button type="submit" class="btn btn-lavender">✨ Ver mi Horóscopo</button>
+        </form>
+
+        <div class="divider">🐾 ✦ 🐱 ✦ 🐾</div>
+
+        <p style="text-align:center; font-size:0.88rem; color:var(--mid); margin-bottom:0.8rem">
+            ¿Aún no tienes cuenta?
+        </p>
+        <a href="/registro" class="btn btn-ghost">😸 Registrarme gratis</a>
+        <a href="/" class="btn btn-ghost" style="margin-top:0.5rem">← Volver al inicio</a>
+    </div>
+</div>
+{% endblock %}

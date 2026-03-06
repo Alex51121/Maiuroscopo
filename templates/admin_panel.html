@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block title %}Panel Admin — Miauroscopo ⚙️{% endblock %}
+
+{% block extra_style %}
+<style>
+    body { background: #1A0F40 !important; background-image: none !important; }
+    body::before { opacity: 0.03 !important; }
+    nav { background: #2D1B69 !important; border-color: #C77DFF !important; }
+    .nav-logo { color: #C77DFF !important; }
+    .nav-links a { color: #9B7FD4 !important; }
+
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+    .stat-card {
+        background: #2D1B69;
+        border-radius: 20px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 1.5px solid #4A3080;
+    }
+    .stat-num {
+        font-family: 'Fredoka One', cursive;
+        font-size: 2.8rem;
+        color: #C77DFF;
+        line-height: 1;
+    }
+    .stat-label { font-size: 0.82rem; color: #9B7FD4; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+
+    .panel-card {
+        background: #2D1B69;
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1.5px solid #4A3080;
+        margin-bottom: 1.2rem;
+    }
+    .panel-title {
+        font-family: 'Fredoka One', cursive;
+        font-size: 1.1rem;
+        color: #C77DFF;
+        margin-bottom: 1rem;
+    }
+
+    /* Users table */
+    .users-table { width: 100%; border-collapse: collapse; }
+    .users-table th {
+        text-align: left;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #9B7FD4;
+        padding: 6px 10px;
+        border-bottom: 1.5px solid #4A3080;
+    }
+    .users-table td {
+        padding: 10px 10px;
+        border-bottom: 1px solid #3D2B69;
+        color: #E0D0FF;
+        font-size: 0.9rem;
+    }
+    .users-table tr:last-child td { border-bottom: none; }
+    .sign-badge {
+        background: #3D2B69;
+        border-radius: 12px;
+        padding: 2px 10px;
+        font-size: 0.8rem;
+        color: #C77DFF;
+        font-weight: 700;
+    }
+
+    /* WhatsApp button */
+    .btn-wa {
+        background: linear-gradient(135deg, #25D366, #128C7E);
+        color: white;
+        box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+        font-size: 1rem;
+    }
+    .btn-logout { background: #3D2B69; color: #9B7FD4; border: 1.5px solid #4A3080; }
+    .btn-logout:hover { background: #4A3080; }
+
+    /* Toast */
+    #toast {
+        display: none;
+        position: fixed;
+        bottom: 2rem; left: 50%;
+        transform: translateX(-50%);
+        background: #2D1B69;
+        color: #C77DFF;
+        border: 1.5px solid #C77DFF;
+        border-radius: 16px;
+        padding: 14px 24px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        z-index: 1000;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        animation: fadeIn 0.3s ease;
+        max-width: 90vw;
+        text-align: center;
+    }
+
+    .warn-box {
+        background: #2A1A00;
+        border: 1.5px solid #664400;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 0.82rem;
+        color: #FFD166;
+        margin-bottom: 1rem;
+    }
+
+    #send-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .scroll-list { max-height: 280px; overflow-y: auto; }
+    .scroll-list::-webkit-scrollbar { width: 6px; }
+    .scroll-list::-webkit-scrollbar-track { background: #1A0F40; border-radius: 3px; }
+    .scroll-list::-webkit-scrollbar-thumb { background: #4A3080; border-radius: 3px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-wide animate">
+    <div style="text-align:center; padding: 2rem 0 1.5rem">
+        <span style="font-size:2.5rem">⚙️</span>
+        <h1 style="font-family:'Fredoka One',cursive; color:#C77DFF; font-size:2rem; margin-top:0.3rem">Panel del Maestro Felino</h1>
+        <p style="color:#9B7FD4; font-style:italic; font-size:0.9rem">Control total del Miauroscopo</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="admin-grid">
+        <div class="stat-card">
+            <div class="stat-num">{{ total }}</div>
+            <div class="stat-label">👥 Usuarios registrados</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">{{ signos_count | length }}</div>
+            <div class="stat-label">⭐ Signos presentes</div>
+        </div>
+    </div>
+
+    <!-- Users list -->
+    <div class="panel-card">
+        <div class="panel-title">📋 Usuarios registrados</div>
+        {% if users %}
+        <div class="scroll-list">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Signo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>🐱 {{ u.nombre }}</td>
+                    <td>{{ u.telefono }}</td>
+                    <td><span class="sign-badge">{{ u.signo }}</span></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color:#6B5080; text-align:center; padding:1.5rem; font-style:italic">No hay usuarios registrados aún 😿</p>
+        {% endif %}
+    </div>
+
+    <!-- WhatsApp panel -->
+    <div class="panel-card">
+        <div class="panel-title">📲 Enviar horóscopos por WhatsApp</div>
+        <div class="warn-box">
+            ⚠️ Asegúrate de tener <strong>WhatsApp Web abierto</strong> en tu navegador antes de enviar. El proceso puede tomar varios minutos.
+        </div>
+        <button id="send-btn" class="btn btn-wa" onclick="sendWhatsApp()">
+            📱 Enviar Horóscopos a todos ({{ total }} usuarios)
+        </button>
+    </div>
+
+    <!-- Logout -->
+    <a href="/admin/logout" class="btn btn-logout" style="display:block; text-align:center; text-decoration:none; border-radius:16px; padding:12px; font-weight:700">
+        ← Cerrar Sesión Admin
+    </a>
+</div>
+
+<div id="toast"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function showToast(msg, ok=true) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    t.style.color = ok ? '#06D6A0' : '#FF6B6B';
+    t.style.borderColor = ok ? '#06D6A0' : '#FF6B6B';
+    setTimeout(() => { t.style.display = 'none'; }, 5000);
+}
+
+async function sendWhatsApp() {
+    const btn = document.getElementById('send-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Enviando... (puede tardar varios minutos)';
+    try {
+        const resp = await fetch('/admin/enviar', { method: 'POST' });
+        const data = await resp.json();
+        showToast(data.ok ? '🎉 ' + data.msg : '😿 ' + data.msg, data.ok);
+    } catch(e) {
+        showToast('😿 Error de conexión: ' + e.message, false);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '📱 Enviar Horóscopos a todos ({{ total }} usuarios)';
+    }
+}
+</script>
+{% endblock %}

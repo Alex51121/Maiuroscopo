@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Acceso Admin — Miauroscopo 🔐{% endblock %}
+
+{% block extra_style %}
+<style>
+    body {
+        background: #1A0F40 !important;
+        background-image: none !important;
+    }
+    body::before { opacity: 0.05 !important; }
+    nav { background: #2D1B69 !important; border-color: #C77DFF !important; }
+    .nav-logo { color: #C77DFF !important; }
+    .nav-links a { color: #9B7FD4 !important; }
+
+    .card {
+        background: #2D1B69;
+        border-color: #4A3080;
+        --card-accent: linear-gradient(90deg, #C77DFF, #7B5EA7);
+    }
+    .card h1 { color: #C77DFF; }
+    .subtitle { color: #9B7FD4 !important; }
+    .field label { color: #9B7FD4 !important; }
+    .field input {
+        background: #1A0F40;
+        border-color: #4A3080;
+        color: white;
+    }
+    .field input:focus {
+        border-color: #C77DFF;
+        box-shadow: 0 0 0 3px rgba(199,125,255,0.2);
+    }
+    .field input::placeholder { color: #6B5080; }
+    .btn-admin {
+        background: linear-gradient(135deg, #C77DFF, #9B4DFF);
+        color: white;
+        box-shadow: 0 4px 20px rgba(199,125,255,0.4);
+    }
+    .btn-ghost { border-color: #4A3080; color: #9B7FD4; }
+    .btn-ghost:hover { background: #3D2B69; }
+    .page-icon { font-size: 3rem; text-align: center; margin-bottom: 0.5rem; }
+    .alert-error { background: #3D1020; border-color: #8B2035; color: #FF7096; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container animate">
+    <div class="card">
+        <div class="page-icon">🔐</div>
+        <h1 style="text-align:center">Panel Admin</h1>
+        <p class="subtitle" style="text-align:center">Acceso del Maestro Felino</p>
+
+        {% if error %}
+        <div class="alert alert-error">🙅 {{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="field">
+                <label>👤 Usuario</label>
+                <input type="text" name="usuario" placeholder="admin" required>
+            </div>
+            <div class="field">
+                <label>🔒 Contraseña</label>
+                <input type="password" name="contrasena" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-admin">🔓 Ingresar al Panel</button>
+        </form>
+
+        <div style="margin-top:0.8rem">
+            <a href="/" class="btn btn-ghost">← Volver al inicio</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

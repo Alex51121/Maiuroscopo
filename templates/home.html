@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Miauroscopo 🐱 El Horóscopo Felino{% endblock %}
+
+{% block extra_style %}
+<style>
+    .hero {
+        text-align: center;
+        padding: 4rem 1rem 2rem;
+    }
+    .hero-cat {
+        font-size: 6rem;
+        line-height: 1;
+        margin-bottom: 1rem;
+        display: block;
+    }
+    .hero h1 {
+        font-family: 'Fredoka One', cursive;
+        font-size: 3.5rem;
+        background: linear-gradient(135deg, var(--pink), var(--lavender));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+    .hero p {
+        color: var(--mid);
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
+        font-style: italic;
+    }
+    .action-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+        max-width: 520px;
+        margin: 0 auto 2rem;
+        padding: 0 1rem;
+    }
+    .action-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        text-decoration: none;
+        border: 2px solid var(--border);
+        transition: all 0.25s;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .action-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(255,133,161,0.2);
+        border-color: var(--pink);
+    }
+    .action-card .icon { font-size: 2.5rem; margin-bottom: 0.6rem; display: block; }
+    .action-card .label {
+        font-family: 'Fredoka One', cursive;
+        font-size: 1.1rem;
+        color: var(--dark);
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+    .action-card .desc { font-size: 0.8rem; color: var(--mid); }
+    .action-card.register { --card-top: var(--mint); border-top: 4px solid var(--mint); }
+    .action-card.login    { --card-top: var(--lavender); border-top: 4px solid var(--lavender); }
+
+    .signs-strip {
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        padding: 1.2rem 1rem;
+        background: white;
+        border-radius: 20px;
+        border: 1.5px solid var(--border);
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    .signs-strip p {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--mid);
+        margin-bottom: 0.8rem;
+    }
+    .signs-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+    .sign-pill {
+        background: var(--light);
+        border: 1.5px solid var(--border);
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--mid);
+    }
+
+    .date-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--yellow), #FFC233);
+        color: white;
+        border-radius: 20px;
+        padding: 6px 18px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero animate">
+    <span class="hero-cat float">🐱</span>
+    <h1>Miauroscopo</h1>
+    <p>✨ El horóscopo con espíritu felino ✨</p>
+    <div class="date-badge">📅 {{ now }}</div>
+</div>
+
+<div class="action-cards animate" style="animation-delay:0.1s">
+    <a href="/registro" class="action-card register">
+        <span class="icon">😸</span>
+        <span class="label">Registrarme</span>
+        <span class="desc">Únete a la familia felina</span>
+    </a>
+    <a href="/login" class="action-card login">
+        <span class="icon">🌙</span>
+        <span class="label">Iniciar Sesión</span>
+        <span class="desc">Ver mi horóscopo de hoy</span>
+    </a>
+</div>
+
+<div class="signs-strip animate" style="animation-delay:0.2s">
+    <p>🐾 Los 12 signos felinos 🐾</p>
+    <div class="signs-row">
+        {% for signo in signos %}
+        <span class="sign-pill">{{ signo }}</span>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const now = new Date();
+    // date already passed from server
+</script>
+{% endblock %}
